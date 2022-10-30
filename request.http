@@ -1,0 +1,140 @@
+
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "badong2002",
+    "email": "nguyenbadong301@gmail.com",
+    "password": "123456dong@",
+    "confirmPassword": "123456dong@"
+}
+
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "badong2002",
+    "password": "123456dong@"
+}
+
+###
+
+GET http://localhost:5000/api/auth
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGNjNTk5NjM5NWMwYzFjYjhmZjE2N2MiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNDAwNTQ2MCwiZXhwIjoxNjI0MDA2NjYwfQ.egbtbQoj9BUVDWF1rqWtpBf-6hgX_kLkfAAE1HGcZCY
+###
+
+PUT http://localhost:5000/api/auth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGNjNTk5NjM5NWMwYzFjYjhmZjE2N2MiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNDAwNTQ2MCwiZXhwIjoxNjI0MDA2NjYwfQ.egbtbQoj9BUVDWF1rqWtpBf-6hgX_kLkfAAE1HGcZCY
+Content-Type: application/json
+
+{
+    "fullname": "Nguyễn Bá Đông",
+    "phoneNumber": "0834708721",
+    "address": "Kim Bảng - Hà Nam",
+    "accountBalance": 1000000
+}
+
+###
+
+PUT http://localhost:5000/api/auth/password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGEyM2ZjOWVmNmI3NTMxZWMyMTI4Y2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjM0MzAwMTMsImV4cCI6MTYyMzQzMDA0M30.k8z3EJ_F9CvDU4Jv3kKT9P6IVUp5WRKFuA7bSBBDwgE
+Content-Type: application/json
+
+{
+    "password": "4122001dong@",
+    "newPassword": "123456dong@",
+    "confirmPassword": "123456dong@"
+}
+
+###
+
+POST http://localhost:5000/api/auth/token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGE4MWI2NDNmN2UxYzJkNjRjNmE5MmYiLCJpYXQiOjE2MjE5OTQ0ODksImV4cCI6MTYyNDU4NjQ4OX0.FqDbeLcVhe7Nj3QHFMic9YRLAEdrHLn9iCLZ1wzYICA"
+}
+
+###
+
+GET http://localhost:5000/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGEyM2ZjOWVmNmI3NTMxZWMyMTI4Y2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjE5OTUyODIsImV4cCI6MTYyMTk5ODg4Mn0.hq_3XH2Oydn_pEeGi3RFzbxbW6y0YaZg6FAKb0Oj5JI
+
+###
+
+POST http://localhost:5000/api/auth/forget-password
+Content-Type: application/json
+
+{
+    "email": "nguyenbadong01@gmail.com"
+}
+
+###
+
+PUT http://localhost:5000/api/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGEyM2ZjOWVmNmI3NTMxZWMyMTI4Y2MiLCJpYXQiOjE2MjE2Mjg1MzAsImV4cCI6MTYyMTYyOTczMH0.DcMWyLnRALJHaSGA3J3AllNlHYPwADvZ_ec0aEYix24
+Content-Type: application/json
+
+{
+    "newPassword": "123456",
+    "confirmPassword": "123456"
+}
+
+###
+
+POST http://localhost:5000/api/cart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGNjNTk5NjM5NWMwYzFjYjhmZjE2N2MiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNDAwNTQ2MCwiZXhwIjoxNjI0MDA2NjYwfQ.egbtbQoj9BUVDWF1rqWtpBf-6hgX_kLkfAAE1HGcZCY
+
+{
+    "productId": "60afefeb8841df28fc60331d",
+    "quantity": 2
+}
+
+###
+
+GET http://localhost:5000/api/cart
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGEyM2ZjOWVmNmI3NTMxZWMyMTI4Y2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjM0MjEzMjQsImV4cCI6MTYyMzQyNDkyNH0.aYrnTsz4_RmO_Fvaepg0jYvipqOD6HHbbwLnnAgtZGQ
+
+###
+
+DELETE http://localhost:5000/api/cart/60aa50e851d43b43ac5b2935
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGE4MWI2NDNmN2UxYzJkNjRjNmE5MmYiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyMTkzNDUwOCwiZXhwIjoxNjIxOTM1NzA4fQ.HXpFA2WrBo5tYxF4inZuBk20dO52yjg7gUWcCIkJW30
+
+###
+
+PUT http://localhost:5000/api/cart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGNjNTk5NjM5NWMwYzFjYjhmZjE2N2MiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNDAwNTQ2MCwiZXhwIjoxNjI0MDA2NjYwfQ.egbtbQoj9BUVDWF1rqWtpBf-6hgX_kLkfAAE1HGcZCY
+
+{
+    "productId": "60afed8d8841df28fc60331c",
+    "quantity": 3
+}
+
+###
+
+POST http://localhost:5000/api/order
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGNjNTk5NjM5NWMwYzFjYjhmZjE2N2MiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNDAwNjc0OSwiZXhwIjoxNjI0MDA3OTQ5fQ.mC5ncnKAeADJFSHcef7IqXt0wKUC9uN3Wb92T_dhLBE
+
+{
+    "address": "Hà Nam",
+    "phoneNumber": "0834708721",
+    "carts": [
+      "60cc5bf01bba6a285c97245d",
+      "60cc5c8fa7988621ec471a12"
+    ]
+}
+
+###
+
+GET http://localhost:5000/api/order/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGE4MWI2NDNmN2UxYzJkNjRjNmE5MmYiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyMTk5NDQ4OSwiZXhwIjoxNjIxOTk4MDg5fQ.9ui6ss83Swg-W2tdCE95Imyq5Ye9UsPBmzKKf3qnDvE
+
+### 
+
+GET http://localhost:5000/api/order/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGEyM2ZjOWVmNmI3NTMxZWMyMTI4Y2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjE5OTUyODIsImV4cCI6MTYyMTk5ODg4Mn0.hq_3XH2Oydn_pEeGi3RFzbxbW6y0YaZg6FAKb0Oj5JI
