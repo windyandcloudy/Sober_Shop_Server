@@ -13,6 +13,8 @@ const Category = require("../models/Category");
 const asyncHandle = require("../middlewares/asyncHandle");
 const sendResponse = require("../helpers/SendResponse");
 
+const cloudinary= require("../config/cloudinary")
+
 module.exports = {
   index: asyncHandle(async (req, res) => {
     const category = await Category.find();
@@ -27,13 +29,23 @@ module.exports = {
   }),
 
   create: asyncHandle(async (req, res) => {
-    const category = await Category.create(req.body);
+    let {...body}= req.body
+    if (req.file){
+      let avt= await cloudinary.uploader.upload(req.file.path)
+      body.thumb= avt.secure_url
+    }
+    const category = await Category.create(body);
 
     return sendResponse(res, "Create category successfully", category);
   }),
 
   update: asyncHandle(async (req, res) => {
-    const category = await Category.findByIdAndUpdate(req.params.id, req.body);
+    let {...body}= req.body
+    if (req.file){
+      let avt= await cloudinary.uploader.upload(req.file.path)
+      body.thumb= avt.secure_url
+    }
+    const category = await Category.findByIdAndUpdate(req.params.id, body);
 
     return sendResponse(res, "Update category successfully", category);
   }),

@@ -8,13 +8,15 @@
  * @api update() Update a product
  * @api delete() Delete a product
  *
- * @author Huu Ngoc Developer huungoc1994hd@gmail.com
+ *
  * @date 25/05/2021
  */
 
 const Product = require("../models/Product");
 const asyncHandle = require("../middlewares/asyncHandle");
 const sendResponse = require("../helpers/SendResponse");
+
+const cloudinary= require("../config/cloudinary")
 
 module.exports = {
   index: asyncHandle(async (req, res) => {
@@ -73,13 +75,28 @@ module.exports = {
   }),
 
   create: asyncHandle(async (req, res) => {
-    const product = await Product.create(req.body);
+    let {...body}= req.body
+    //upload thumb
+    let promThumb= req.files["thumb"].map(v=>{
+      return cloudinary.uploader.upload(v.path)
+    })
+
+    let arrThumb= await Promise.all(promThumb)
+    body.thumb= arrThumb.map(v=> v.secure_url)
+    //upload listimage
+    let promListImage= req.files["listImage"].map(v=>{
+      return cloudinary.uploader.upload(v.path)
+    })
+    let arrListImage= await Promise.all(promListImage)
+    body.listImage= arrListImage.map(v=> v.secure_url)
+
+    const product = await Product.create(body);
 
     return sendResponse(res, "Create successfully.", product);
   }),
 
   update: asyncHandle(async (req, res) => {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body);
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true});
 
     return sendResponse(res, "Update successfully.", product);
   }),

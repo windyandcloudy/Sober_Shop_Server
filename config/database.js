@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const userModel= require("../models/User")
+const bcrypt= require("bcrypt")
 
 dotenv.config();
 
@@ -12,12 +13,13 @@ const connectDB = async () => {
             useUnifiedTopology: true,
             useFindAndModify: false,
         });
-        let user= await userModel.findOne({username: "admin123456"})
+        let user= await userModel.findOne({username: "admin1234"})
         if (!user){
+            const hashedPassword = await bcrypt.hash("admin1234@", 10);
             await userModel.create({
-                username: "admin123456",
-                password: "admin123456@",
-                email: "anhduy0701001234@gmail.com",
+                username: "admin1234",
+                password: hashedPassword,
+                email: "anhduy10701001234@gmail.com",
                 role: "admin"
             })
         }
