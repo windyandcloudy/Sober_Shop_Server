@@ -39,6 +39,10 @@ const ProductSchema = new Schema({
         ref: 'categories',
         required: true,
     },
+    deleted: {
+        type: Number,
+        default: 0
+    }
 }, {
     timestamps: true,
 });

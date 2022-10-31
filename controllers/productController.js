@@ -20,7 +20,9 @@ const cloudinary= require("../config/cloudinary")
 
 module.exports = {
   index: asyncHandle(async (req, res) => {
-    const conditions = {};
+    let deleted= req.query.deleted || 0
+    let conditions = {
+    };
 
     /*== Find if category_id is not empty ==*/
     if (req.query.category_id) {
@@ -49,6 +51,7 @@ module.exports = {
       conditions.price.$lte = req.query.max_price;
     }
 
+    console.log(conditions)
     const page = +req.query.page || 1;
     const limit = +req.query.limit || 10;
     const startIndex = (page - 1) * limit;
@@ -62,14 +65,16 @@ module.exports = {
     };
 
     const products = await Product.find(conditions)
+      .populate("category")
       .skip(startIndex)
       .limit(limit);
+    let pro= products.filter(v=> v.deleted===0)  
 
-    return sendResponse(res, "Get list successfully.", products, pagination);
+    return sendResponse(res, "Get list successfully.", pro, pagination);
   }),
 
   show: asyncHandle(async (req, res) => {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("category");
 
     return sendResponse(res, "Show successfully.", product);
   }),
@@ -102,7 +107,7 @@ module.exports = {
   }),
 
   delete: asyncHandle(async (req, res) => {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findByIdAndUpdate(req.params.id, {is_deleted: 1}, {new: true});
 
     return sendResponse(res, "Delete successfully.", product);
   }),

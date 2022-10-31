@@ -20,6 +20,10 @@ const OrderSchema = new Schema({
         required: true,
         ref: 'users',
     },
+    status: {
+        type: String,
+        default: "đang giao"
+    }
 }, {
     timestamps: true,
     toJSON: { virtuals: true },

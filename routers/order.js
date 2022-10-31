@@ -10,6 +10,8 @@ router.get('/user', verifyAccessToken, permission('user'), orderController.getOr
 
 router.get('/admin', verifyAccessToken, permission('admin'), orderController.getAllOrders);
 
+router.patch('/admin/:id', verifyAccessToken, permission('admin'), orderController.updateStatus);
+
 router.get('/:id', verifyAccessToken, orderController.getOrder);
 
 module.exports = router;

@@ -6,6 +6,7 @@ const User = require('../models/User');
 const Cart = require('../models/Cart');
 const mongoose = require('mongoose');
 const Product = require('../models/Product');
+const sendResponse = require("../helpers/SendResponse");
 
 module.exports = {
 
@@ -131,9 +132,22 @@ module.exports = {
     // @desc Get all order in database
     // @access Only role admin
     getAllOrders: asyncHandle(async (req, res, next) => {
-        const orders = await Order.find({}).populate({ path: 'orderDetails', populate: 'product' }).populate('user');
+        const page = +req.query.page || 1;
+        const limit = +req.query.limit || 10;
+        const startIndex = (page - 1) * limit;
+        const total = await Order.countDocuments();
+        const totalPage = Math.ceil(total / limit);
+        const pagination = {
+        page,
+        limit,
+        total,
+        totalPage,
+        };
+        const orders = await Order.find({}).populate({ path: 'orderDetails', populate: 'product' }).populate('user').skip(startIndex)
+        .limit(limit);;
 
-        res.json({ success: true, orders });
+        return sendResponse(res, "Get list order successfully.", orders, pagination);
+        // res.json({ success: true, orders });
     }),
 
     // @route [GET] /api/order/:id
@@ -149,5 +163,11 @@ module.exports = {
 
         res.json({ success: true, order });
     }),
+    updateStatus: asyncHandle(async(req, res, next)=>{
+        let id= req.params.id;
+        let {...body}= req.body
+        let order= await Order.findByIdAndUpdate(id, body, {new: true})
+        return res.status(200).json(order)
+    })
 
 };
