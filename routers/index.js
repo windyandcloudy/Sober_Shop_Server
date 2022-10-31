@@ -5,9 +5,13 @@ const productRouter = require("./product");
 const categoryRouter = require("./category");
 const feedbackRouter = require("./feedback");
 const favouriteProductRouter = require("./favouriteProduct");
+const accountRouter= require("./account")
 const errorHandle = require("../middlewares/errorHandle");
 
 module.exports = (app) => {
+
+  app.use("/api/user", accountRouter);
+
   app.use("/api/auth", authRouter);
 
   app.use("/api/product", productRouter);
