@@ -6,7 +6,7 @@ const sendResponse = require("../helpers/SendResponse");
 module.exports= {
   getAll: asyncHandle(async(req, res, next)=>{
     const page = +req.query.page || 1;
-        const limit = +req.query.limit || 10;
+        const limit = +req.query.limit || 30;
         const startIndex = (page - 1) * limit;
         const total = await User.countDocuments();
         const totalPage = Math.ceil(total / limit);
@@ -16,9 +16,9 @@ module.exports= {
         total,
         totalPage,
         };
-        const users = await User.find({}).skip(startIndex)
-        .limit(limit);;
-
+        const users = await User.find().skip(startIndex)
+        .limit(limit);
+        let us= users.filter(v=>v.deleted==0)
         return sendResponse(res, "Get list user successfully.", users, pagination);
         
   }),

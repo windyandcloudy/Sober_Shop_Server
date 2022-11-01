@@ -68,7 +68,7 @@ module.exports = {
       .populate("category")
       .skip(startIndex)
       .limit(limit);
-    let pro= products.filter(v=> v.deleted===0)  
+    let pro= products.filter(v=> v.deleted==0)  
 
     return sendResponse(res, "Get list successfully.", pro, pagination);
   }),
