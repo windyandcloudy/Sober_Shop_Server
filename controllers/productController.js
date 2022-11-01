@@ -107,7 +107,7 @@ module.exports = {
   }),
 
   delete: asyncHandle(async (req, res) => {
-    const product = await Product.findByIdAndUpdate(req.params.id, {is_deleted: 1}, {new: true});
+    const product = await Product.findByIdAndUpdate(req.params.id, {deleted: 1}, {new: true});
 
     return sendResponse(res, "Delete successfully.", product);
   }),
