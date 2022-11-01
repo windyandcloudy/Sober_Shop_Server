@@ -23,6 +23,8 @@ module.exports= {
         
   }),
   delete: asyncHandle(async(req, res, next)=>{
-    
+    let id= req.params.id
+    let acc= await User.findByIdAndUpdate(id, {deleted: 1}, {new: true})
+    return res.status(200).json(acc)
   })
 }

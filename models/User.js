@@ -38,6 +38,10 @@ const UserSchema = new Schema({
         default: 0,
         min: 0,
     },
+    deleted: {
+        type: Number,
+        default: 0
+    }
 }, {
     timestamps: true,
 });
