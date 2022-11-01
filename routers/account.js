@@ -8,5 +8,6 @@ const router = express.Router();
 router.get('/', verifyAccessToken, permission('admin'), accountController.getAll);
 
 router.delete('/:id', verifyAccessToken, permission('admin'), accountController.delete);
+router.get('/:id', verifyAccessToken, permission('admin'), accountController.getById);
 
 module.exports = router;

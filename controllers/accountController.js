@@ -18,9 +18,14 @@ module.exports= {
         };
         const users = await User.find().skip(startIndex)
         .limit(limit);
-        let us= users.filter(v=>v.deleted==0)
-        return sendResponse(res, "Get list user successfully.", users, pagination);
+        let us= users.filter(v=>v.deleted!=1)
+        return sendResponse(res, "Get list user successfully.", us, pagination);
         
+  }),
+  getById: asyncHandle(async(req, res, next)=>{
+    let id= req.params.id
+    let acc= await User.findById(id)
+    return res.status(200).json(acc)
   }),
   delete: asyncHandle(async(req, res, next)=>{
     let id= req.params.id
