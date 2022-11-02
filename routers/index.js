@@ -6,9 +6,12 @@ const categoryRouter = require("./category");
 const feedbackRouter = require("./feedback");
 const favouriteProductRouter = require("./favouriteProduct");
 const accountRouter= require("./account")
+const homeRouter= require("./home")
 const errorHandle = require("../middlewares/errorHandle");
 
 module.exports = (app) => {
+
+  app.use("/api/home", homeRouter);
 
   app.use("/api/user", accountRouter);
 
