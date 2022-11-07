@@ -66,6 +66,7 @@ module.exports = {
 
     const products = await Product.find(conditions)
       .populate("category")
+      .sort("-updatedAt")
       .skip(startIndex)
       .limit(limit);
     let pro= products.filter(v=> v.deleted==0)  
