@@ -22,6 +22,7 @@ module.exports = {
   index: asyncHandle(async (req, res) => {
     let deleted= req.query.deleted || 0
     let conditions = {
+      deleted: deleted
     };
 
     /*== Find if category_id is not empty ==*/
@@ -71,9 +72,9 @@ module.exports = {
       .sort("-updatedAt")
       .skip(startIndex)
       .limit(limit);
-    let pro= products.filter(v=> v.deleted==0)  
+    // let pro= products.filter(v=> v.deleted!==1)  
 
-    return sendResponse(res, "Get list successfully.", pro, pagination);
+    return sendResponse(res, "Get list successfully.", products, pagination);
   }),
 
   show: asyncHandle(async (req, res) => {
