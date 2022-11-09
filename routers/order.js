@@ -11,6 +11,7 @@ router.get('/user', verifyAccessToken, permission('user'), orderController.getOr
 router.get('/admin', verifyAccessToken, permission('admin'), orderController.getAllOrders);
 
 router.patch('/admin/:id', verifyAccessToken, permission('admin'), orderController.updateStatus);
+router.delete('/admin/:id', verifyAccessToken, permission('admin'), orderController.deleteOrder);
 
 router.get('/:id', verifyAccessToken, orderController.getOrder);
 

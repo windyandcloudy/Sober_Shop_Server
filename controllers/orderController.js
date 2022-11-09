@@ -168,6 +168,11 @@ module.exports = {
         let {...body}= req.body
         let order= await Order.findByIdAndUpdate(id, body, {new: true})
         return res.status(200).json(order)
+    }),
+    deleteOrder: asyncHandle(async(req, res, next)=>{
+        let id= req.params.id;
+        let order= await Order.findByIdAndDelete(id);
+        return res.status(200).json(order);
     })
 
 };
