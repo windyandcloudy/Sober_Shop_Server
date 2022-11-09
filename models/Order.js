@@ -22,7 +22,7 @@ const OrderSchema = new Schema({
     },
     status: {
         type: String,
-        default: "đang giao"
+        default: "1"
     }
 }, {
     timestamps: true,
