@@ -7,6 +7,7 @@ const feedbackRouter = require("./feedback");
 const favouriteProductRouter = require("./favouriteProduct");
 const accountRouter= require("./account")
 const homeRouter= require("./home")
+const paypalRouter= require("./paypal")
 const errorHandle = require("../middlewares/errorHandle");
 
 module.exports = (app) => {
@@ -28,6 +29,8 @@ module.exports = (app) => {
   app.use("/api/feedback", feedbackRouter);
 
   app.use("/api/favouriteProduct", favouriteProductRouter);
+
+  app.use("/api/paypal", paypalRouter);
 
   app.use(errorHandle);
 };
