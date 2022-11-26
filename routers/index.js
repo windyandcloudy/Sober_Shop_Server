@@ -5,13 +5,12 @@ const productRouter = require("./product");
 const categoryRouter = require("./category");
 const feedbackRouter = require("./feedback");
 const favouriteProductRouter = require("./favouriteProduct");
-const accountRouter= require("./account")
-const homeRouter= require("./home")
-const paypalRouter= require("./paypal")
+const accountRouter = require("./account");
+const homeRouter = require("./home");
+const paypalRouter = require("./paypal");
 const errorHandle = require("../middlewares/errorHandle");
 
 module.exports = (app) => {
-
   app.use("/api/home", homeRouter);
 
   app.use("/api/user", accountRouter);
@@ -30,7 +29,7 @@ module.exports = (app) => {
 
   app.use("/api/favouriteProduct", favouriteProductRouter);
 
-  app.use("/api/paypal", paypalRouter);
+  // app.use("/api/paypal", paypalRouter);
 
   app.use(errorHandle);
 };

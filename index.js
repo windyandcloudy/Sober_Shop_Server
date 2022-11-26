@@ -35,7 +35,6 @@ app.set("views", path.join(__dirname, "views"));
 // app.engine("ejs", )
 app.set("view engine", "ejs");
 
-
 connectDB();
 
 const PORT = process.env.PORT || 5000;
@@ -46,17 +45,22 @@ app.get("/", function (req, res) {
   res.render("index");
 });
 
-app.post("/pay", function (req, res) {
-  let obj= req.body
-  let total= (obj || 0) && obj?.reduce((pre, curr)=>pre+ Number(curr.price)* Number(curr.quantity), 0)
+app.post("/api/pay", function (req, res) {
+  let obj = req.body;
+  let total =
+    (obj || 0) &&
+    obj.reduce(
+      (pre, curr) => pre + Number(curr.price) * Number(curr.quantity),
+      0
+    );
   const create_payment_json = {
     intent: "sale",
     payer: {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:5000/success?total="+total,
-      cancel_url: "http://localhost:5000/cancel",
+      return_url: "http://localhost:5000/api/success?total=" + total,
+      cancel_url: "http://localhost:5000/api/cancel",
     },
     transactions: [
       {
@@ -74,30 +78,30 @@ app.post("/pay", function (req, res) {
 
   paypal.payment.create(create_payment_json, function (error, payment) {
     if (error) {
-      console.log("Error pay: "+ error)
+      console.log("Error pay: " + error);
       res.render("cancle");
     } else {
       for (let i = 0; i < payment.links.length; i++) {
         if (payment.links[i].rel === "approval_url") {
-          console.log("di qua 83")
+          console.log("di qua 83");
           // res.redirect(payment.links[i].href);
-          res.json(payment)
+          res.json(payment);
         }
       }
     }
   });
 });
-app.get("/cancle", function (req, res) {
+app.get("/api/cancle", function (req, res) {
   res.render("cancle");
 });
-app.get("/success", (req, res) => {
+app.get("/api/success", (req, res) => {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
-  const total= req.query.total;
-  
-  console.log(payerId)
-  console.log(paymentId)
-  console.log(total)
+  const total = req.query.total;
+
+  console.log(payerId);
+  console.log(paymentId);
+  console.log(total);
   const execute_payment_json = {
     payer_id: payerId,
     transactions: [
@@ -115,16 +119,15 @@ app.get("/success", (req, res) => {
     execute_payment_json,
     function (error, payment) {
       if (error) {
-        console.log("Error success: "+ error)
+        console.log("Error success: " + error);
         res.render("cancle");
       } else {
         // res.json(payment);
-        res.render("success")
+        res.render("success");
       }
     }
   );
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running at ${PORT}`);
