@@ -7,6 +7,8 @@ const path = require("path");
 
 const paypal = require("paypal-rest-sdk");
 
+const orderModel = require("./models/Order");
+
 paypal.configure({
   mode: "sandbox", //sandbox or live
   client_id:
@@ -47,6 +49,7 @@ app.get("/", function (req, res) {
 
 app.post("/api/pay", function (req, res) {
   let obj = req.body;
+  let id_order = req.query.id_order;
   let total =
     (obj || 0) &&
     obj.reduce(
@@ -59,7 +62,11 @@ app.post("/api/pay", function (req, res) {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:5000/api/success?total=" + total,
+      return_url:
+        "http://localhost:5000/api/success?total=" +
+        total +
+        "&id_order=" +
+        id_order,
       cancel_url: "http://localhost:5000/api/cancel",
     },
     transactions: [
@@ -98,6 +105,7 @@ app.get("/api/success", (req, res) => {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   const total = req.query.total;
+  const id_order = req.query.id_order;
 
   console.log(payerId);
   console.log(paymentId);
@@ -117,12 +125,32 @@ app.get("/api/success", (req, res) => {
   paypal.payment.execute(
     paymentId,
     execute_payment_json,
-    function (error, payment) {
+    async function (error, payment) {
       if (error) {
         console.log("Error success: " + error);
         res.render("cancle");
       } else {
-        // res.json(payment);
+        let shipping_address = payment.payer.payer_info.shipping_address;
+        let address =
+          shipping_address.recipient_name +
+          " " +
+          shipping_address.line1 +
+          " " +
+          shipping_address.line2 +
+          " " +
+          shipping_address.city +
+          " " +
+          shipping_address.state;
+
+        let bd = {
+          address: address,
+          payment_method: "paypal",
+        };
+
+        let newOrder = await orderModel.findByIdAndUpdate(id_order, bd, {
+          new: true,
+        });
+
         res.render("success");
       }
     }
