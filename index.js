@@ -28,9 +28,9 @@ const { mongooseToObject } = require("./util/convert");
 paypal.configure({
   mode: "sandbox", //sandbox or live
   client_id:
-    "AXwk_6fVQ72Ezs8bfr5PGnrsRtYcezNk1PKaTyn49Ki-z9kpfk-8Urcj5-oMLzD_5XFUG0N9nebFADQo",
+    "AaC17qAgEh6PYcDSgp8NbUbFIssqY-ZPmd77ue_2K8vLYivjeHbeNwjGwDqS4Z3b2gh2U3Ir51ATuItA",
   client_secret:
-    "EDut9pT7a4Av5hdROdB1O9NHmEer48q_ifF2xQiVCucyCUV-ncjAAf3OMmuOamveqNICmxSNG8DDdwEd",
+    "EJQBMfWTfW5cU4s11l_Ftb1Oql19YE84IioRcjYTRq83YPnwfzFYb9Ny-4OG2MWIjooapnnGtOoo8026",
 });
 
 dotenv.config();
