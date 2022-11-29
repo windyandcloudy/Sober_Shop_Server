@@ -199,7 +199,7 @@ app.post(
       quantity: v.quantity,
       price: v.product.price - (v.product.price * v.product.discount) / 100,
       currency: "USD",
-      sku: v?.product?.listImage[0],
+      sku: v.product.listImage[0],
     }));
     console.log("obj: ");
     console.log(obj);

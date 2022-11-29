@@ -106,7 +106,7 @@
         Mã đơn hàng: <%= data?.order._id %>
       </p>
       <ul>
-        <% data?.payment?.forEach(function(item){ %>
+        <% data.payment.forEach(function(item){ %>
         <li>
           <img src="<%=item.sku%>" alt="Ảnh sản phẩm" />
           <p style="margin-left: 20px"><%= item.name %></p>
