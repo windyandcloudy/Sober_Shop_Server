@@ -23,6 +23,8 @@ const permission = require("./middlewares/permission");
 
 const errorHandle = require("./middlewares/errorHandle");
 
+const { mongooseToObject } = require("./util/convert");
+
 paypal.configure({
   mode: "sandbox", //sandbox or live
   client_id:
@@ -195,8 +197,9 @@ app.post(
     let obj = bd.carts.map((v) => ({
       name: v.product.name,
       quantity: v.quantity,
-      price: v.product.price,
+      price: v.product.price - (v.product.price * v.product.discount) / 100,
       currency: "USD",
+      sku: v?.product?.listImage[0],
     }));
     console.log("obj: ");
     console.log(obj);
@@ -296,11 +299,18 @@ app.get("/api/success", (req, res) => {
         let newOrder = await orderModel.findByIdAndUpdate(id_order, bd, {
           new: true,
         });
-        res.json({
-          payment,
-          order: newOrder,
+
+        // res.json({
+        //   abc: payment.transactions[0].item_list?.items,
+        //   order: newOrder,
+        // });
+        // console.log("server: " + payment?.transactions?.item_list);
+        res.render("success", {
+          data: {
+            payment: payment?.transactions[0]?.item_list?.items,
+            order: newOrder,
+          },
         });
-        // res.render("success");
       }
     }
   );
