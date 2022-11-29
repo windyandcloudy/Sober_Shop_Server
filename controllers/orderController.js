@@ -172,6 +172,7 @@ module.exports = {
     const orders = await Order.find({})
       .populate({ path: "orderDetails", populate: "product" })
       .populate("user")
+      .sort("-createdAt")
       .skip(startIndex)
       .limit(limit);
 
