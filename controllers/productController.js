@@ -16,13 +16,13 @@ const Product = require("../models/Product");
 const asyncHandle = require("../middlewares/asyncHandle");
 const sendResponse = require("../helpers/SendResponse");
 
-const cloudinary= require("../config/cloudinary")
+const cloudinary = require("../config/cloudinary");
 
 module.exports = {
   index: asyncHandle(async (req, res) => {
-    let deleted= req.query.deleted || 0
+    let deleted = req.query.deleted || 0;
     let conditions = {
-      deleted: deleted
+      deleted: deleted,
     };
 
     /*== Find if category_id is not empty ==*/
@@ -32,8 +32,8 @@ module.exports = {
 
     /*== Find if name is not empty with regex ==*/
     if (req.query.name) {
-      console.log(req.query.name.length)
-      if (req.query.name.length>2)
+      console.log(req.query.name.length);
+      if (req.query.name.length > 2)
         conditions.name = new RegExp(req.query.name, "ig");
     }
 
@@ -54,7 +54,7 @@ module.exports = {
       conditions.price.$lte = req.query.max_price;
     }
 
-    console.log(conditions)
+    console.log(conditions);
     const page = +req.query.page || 1;
     const limit = +req.query.limit || 10;
     const startIndex = (page - 1) * limit;
@@ -72,7 +72,7 @@ module.exports = {
       .sort("-updatedAt")
       .skip(startIndex)
       .limit(limit);
-    // let pro= products.filter(v=> v.deleted!==1)  
+    // let pro= products.filter(v=> v.deleted!==1)
 
     return sendResponse(res, "Get list successfully.", products, pagination);
   }),
@@ -84,20 +84,22 @@ module.exports = {
   }),
 
   create: asyncHandle(async (req, res) => {
-    let {...body}= req.body
+    let { ...body } = req.body;
     //upload thumb
-    let promThumb= req.files["thumb"].map(v=>{
-      return cloudinary.uploader.upload(v.path)
-    })
+    console.log(req.files["thumb"]);
 
-    let arrThumb= await Promise.all(promThumb)
-    body.thumb= arrThumb.map(v=> v.secure_url)
+    let promThumb = req.files["thumb"].map((v) => {
+      return cloudinary.uploader.upload(v.path);
+    });
+
+    let arrThumb = await Promise.all(promThumb);
+    body.thumb = arrThumb.map((v) => v.secure_url);
     //upload listimage
-    let promListImage= req.files["listImage"].map(v=>{
-      return cloudinary.uploader.upload(v.path)
-    })
-    let arrListImage= await Promise.all(promListImage)
-    body.listImage= arrListImage.map(v=> v.secure_url)
+    let promListImage = req.files["listImage"].map((v) => {
+      return cloudinary.uploader.upload(v.path);
+    });
+    let arrListImage = await Promise.all(promListImage);
+    body.listImage = arrListImage.map((v) => v.secure_url);
 
     const product = await Product.create(body);
 
@@ -105,13 +107,19 @@ module.exports = {
   }),
 
   update: asyncHandle(async (req, res) => {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
     return sendResponse(res, "Update successfully.", product);
   }),
 
   delete: asyncHandle(async (req, res) => {
-    const product = await Product.findByIdAndUpdate(req.params.id, {deleted: 1}, {new: true});
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { deleted: 1 },
+      { new: true }
+    );
 
     return sendResponse(res, "Delete successfully.", product);
   }),
