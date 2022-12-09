@@ -52,6 +52,7 @@ module.exports = {
             options
           );
           product.sold += cart.quantity;
+          product.quantity = product.quantity - cart.quantity;
           await product.save();
 
           return cart;
