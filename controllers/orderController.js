@@ -53,6 +53,9 @@ module.exports = {
           );
           product.sold += cart.quantity;
           product.quantity = product.quantity - cart.quantity;
+          if (product.quantity<0){
+            return next(new ErrorResponse(404, "Inadequate product quantity"))
+          }
           await product.save();
 
           return cart;
