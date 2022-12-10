@@ -111,8 +111,8 @@ app.post(
           );
           product.sold += cart.quantity;
           product.quantity = product.quantity - cart.quantity;
-          if (product.quantity<0){
-            return next(new ErrorResponse(404, "Inadequate product quantity"))
+          if (product.quantity < 0) {
+            return next(new ErrorResponse(404, "Inadequate product quantity"));
           }
           await product.save();
 
@@ -154,7 +154,7 @@ app.post(
 
       // Transfer money to recipient's account
       const receiver = await User.findOne(
-        { username: "badong2001" },
+        { username: "admin1234" },
         null,
         options
       );

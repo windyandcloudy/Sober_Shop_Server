@@ -96,10 +96,11 @@ module.exports = {
 
       // Transfer money to recipient's account
       const receiver = await User.findOne(
-        { username: "badong2001" },
+        { username: "admin1234" },
         null,
         options
       );
+      console.log(receiver)
 
       if (!receiver) {
         await session.abortTransaction();
