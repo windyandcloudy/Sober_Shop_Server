@@ -8,7 +8,7 @@ module.exports = {
     const page = +req.query.page || 1;
     const limit = +req.query.limit || 30;
     const startIndex = (page - 1) * limit;
-    const total = await User.countDocuments({ deleted: 0 });
+    const total = await User.countDocuments({ deleted: 0, role: "user" });
     const totalPage = Math.ceil(total / limit);
     const pagination = {
       page,
@@ -16,7 +16,7 @@ module.exports = {
       total,
       totalPage,
     };
-    const users = await User.find({ deleted: 0 })
+    const users = await User.find({ deleted: 0, role: "user" })
       .skip(startIndex)
       .sort("-createdAt")
       .limit(limit);
