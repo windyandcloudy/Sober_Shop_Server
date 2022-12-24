@@ -74,6 +74,9 @@ module.exports = {
         if(!user) {
             return next(new ErrorResponse(400, 'Incorrect username or password'));
         }
+        if (user?.deleted==1){
+            return next(new ErrorResponse(400, 'Account has been deleted'));
+        }
 
         // Check password
         const passwordValid = await bcrypt.compare(password, user.password);
