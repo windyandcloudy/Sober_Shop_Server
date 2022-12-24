@@ -16,10 +16,18 @@ module.exports = {
   index: asyncHandle(async (req, res) => {
     const favouriteProduct = await FavouriteProduct.find({ user: req.userId }).populate('product');
 
+    let ar=[]
+    for (let i of favouriteProduct){
+      let c= ar.find(v=> v?.product?._id===i?.product?._id)
+      if (!c){
+        ar.push(i)
+      }
+    }
+
     return sendResponse(
       res,
       "get list favourite product sucessfully",
-      favouriteProduct
+      ar
     );
   }),
   create: asyncHandle(async (req, res) => {
